@@ -14,17 +14,15 @@ import {createStackNavigator} from '@react-navigation/stack';
 function HomeScreen({navigation}) {
   const [value1, onChangeText1] = React.useState('type something1...');
   const [value2, onChangeText2] = React.useState('type something2...');
-  const [isFocusEnabled, setIsFocusEnabled] = React.useState(false);
+  const [isEditable, setIsEditable] = React.useState(false);
 
   useFocusEffect(
     React.useCallback(() => {
-      // Do something when the screen is focused
-      setIsFocusEnabled(true);
-      alert('Screen was focused');
+      // Make textInput editable when page is in focus
+      setIsEditable(true);
       return () => {
-        // Do something when the screen is unfocused
-        setIsFocusEnabled(false);
-        alert('Screen was unfocused');
+        // Makes textInput non-editable when page is out of focus
+        setIsEditable(false);
       };
     }, [])
   );
@@ -36,18 +34,14 @@ function HomeScreen({navigation}) {
         title="Go to Details"
         onPress={() => navigation.navigate('Details')}
       />
-      <Button
-        title="Toggle textinput focusability"
-        onPress={() => setIsFocusEnabled(!isFocusEnabled)}
-      />
       <TextInput
-        focusable={isFocusEnabled ? true : false}
+        editable={isEditable}
         style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
         onChangeText={text => onChangeText1(text)}
         value={value1}
       />
       <TextInput
-        focusable={isFocusEnabled ? true : false}
+        editable={isEditable}
         style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
         onChangeText={text => onChangeText2(text)}
         value={value2}
